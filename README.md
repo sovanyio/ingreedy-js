@@ -14,7 +14,7 @@ result.amount
 result.container
   //=> {
   //   amount: '1',
-  //   unit: 'lb.'
+  //   unit: 'lb'
   // }
 result.ingredient
   //=> "bags) potatoes"
