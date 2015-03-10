@@ -33,4 +33,9 @@ describe("Amount parsing", function() {
     expect(result.amount).toBe('.5');
   });
 
+  it('parses parenthetical integers', function() {
+    var result = parser.parse('(2)');
+    expect(result.amount).toBe('2');
+  });
+
 });

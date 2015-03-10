@@ -58,4 +58,44 @@ describe("Ingreedy", function() {
       });
     });
   });
+
+  describe('ingredient additions with a parenthetical multiplier', function() {
+    it('parses the correct values', function() {
+      expect('(2) 28 oz can tomatoes').toBeParsedAs({
+        amount: '2',
+        ingredient: 'can tomatoes',
+        container: {
+          amount: '28',
+          unit: 'oz'
+        }
+      });
+    });
+  });
+
+  describe('ingredient additions with a multiplier', function() {
+    it('parses the correct values', function() {
+      expect('2 (28 oz) cans tomatoes').toBeParsedAs({
+        amount: '2',
+        ingredient: 'cans tomatoes',
+        container: {
+          amount: '28',
+          unit: 'oz'
+        }
+      });
+    });
+  });
+
+  describe('ingredient additions with non-letter ingredient characters', function() {
+    it('parses the correct values', function() {
+      expect('2 (8 oz) Sirloin steaks 1" thick').toBeParsedAs({
+        amount: '2',
+        ingredient: 'Sirloin steaks 1" thick',
+        container: {
+          amount: '8',
+          unit: 'oz'
+        }
+      });
+    });
+  });
+
 });

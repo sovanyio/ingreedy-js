@@ -5,7 +5,7 @@ ingredient_additions
   = ingredient_addition+
 
 ingredient_addition
-  = amount:amount (ws+)? container:container? unit:unit? (ws+)? ingredient:ingredient? [\n]?  {
+  = amount:amount? (ws+)? container:container? unit:unit? (ws+)? ingredient:ingredient? [\n]?  {
     var result = {
       amount: amount,
       container: container,
@@ -27,10 +27,14 @@ amount
   / mixed_number
   / fraction
   / integer
+  / parenthetical
 
 container
-  = "("? amount:amount (ws+)? unit:unit")"? {
-    return { amount: amount, unit: unit };
+  = "("? amount:amount (ws+)? unit:unit ")"? {
+    return {
+      amount: amount,
+      unit: unit
+    };
   }
 
 ws
@@ -47,7 +51,7 @@ phrase
   = $(word (space word)*)
 
 word
-  = letters:letter+ { return letters.join(''); }
+  = letters:char+ { return letters.join(''); }
 
 float
   = $(integer? [.] integer)
@@ -61,8 +65,16 @@ fraction
 integer
   = digits:[0-9]+ { return digits.join(''); }
 
+parenthetical
+  = "(" ws* integer:integer ws* ")" {
+    return integer;
+  }
+
 letter
   = [a-zA-Z]
+
+char
+  = [a-zA-Z0-9'",\(\)\-_%\&\*\$\+\=]
 
 unit
   = $(english_unit !letter)
